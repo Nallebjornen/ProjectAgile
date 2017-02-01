@@ -6,4 +6,5 @@ git stopgit utbildning
 git krav
 git fördriv
 git nyhet
-git stop
+git stop
+updateringJonas
