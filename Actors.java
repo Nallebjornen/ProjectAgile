@@ -1,14 +1,18 @@
-public class Actors{
+import java.util.ArrayList;
+import java.util.Random;
 
-    String name, birthplace, date_of_birth, participating_in_movies;
-    int unique_ID;
+public class Actors {
 
-    public Actors(String name, String birthplace, String date_of_birth, String participating_in_movies, int unique_ID){
+    String name, birthplace, date_of_birth;
+    ArrayList<Movies> performances;
+    int id_nr;
+
+    public Actors(String name, String birthplace, String date_of_birth){
         this.name = name;
         this.birthplace = birthplace;
         this.date_of_birth = date_of_birth;
-        this.participating_in_movies = participating_in_movies;
-        this.unique_ID = unique_ID;
+        this.performances = new ArrayList<Movies>(); //tom arraylist <>
+        this.id_nr = RandGen.RandNum();
     }
 
     public String name(){
@@ -20,11 +24,4 @@ public class Actors{
     public String date_of_birth(){
       return date_of_birth;
     }
-    public String participating_in_movies(){
-      return participating_in_movies;
-    }
-    public int unique_ID(){
-      return unique_ID;
-    }
-
 }

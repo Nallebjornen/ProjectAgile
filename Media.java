@@ -1,13 +1,14 @@
-public class Media{
+public class Media {
 
   String title,genre,language,plot,director,scriptwriter,cast;
-  int  release_dates, unique_ID;
+  String  release_dates;
   byte age_limit;
   short year;
+  int id_nr;
 
   public Media(String title,String genre,String language,String plot,
   String director,String scriptwriter, String cast,
-  int release_dates,int unique_ID,byte age_limit,short year){
+  String release_dates,byte age_limit,short year){
       this.title = title;
       this.genre = genre;
       this.language = language;
@@ -16,9 +17,9 @@ public class Media{
       this.scriptwriter = scriptwriter;
       this.cast = cast;
       this.release_dates = release_dates;
-      this.unique_ID = unique_ID;
       this.age_limit = age_limit;
       this.year = year;
+      this.id_nr = RandGen.RandNum();
   }
 
   public String title(){
@@ -42,11 +43,8 @@ public class Media{
   public String cast(){
     return cast;
   }
-  public int release_dates(){
+  public String release_dates(){
     return release_dates;
-  }
-  public int unique_ID(){
-    return unique_ID;
   }
   public byte age_limit(){
     return age_limit;
