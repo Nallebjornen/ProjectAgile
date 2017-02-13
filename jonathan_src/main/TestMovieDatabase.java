@@ -12,10 +12,10 @@ public class TestMovieDatabase{
     boolean admin = false;
     boolean user = false;
     boolean running = true;
-    int choice;
     ArrayList<Movies> movies = new ArrayList<Movies>();
     ArrayList<Actors> actors = new ArrayList<Actors>();
     TestApplication ta = new TestApplication();
+    Scanner sc = new Scanner(System.in);
 
     System.out.println("Welcome to IthsMDB!");
     System.out.println("Product of PUZZLE" + "\n" + "------");
@@ -29,7 +29,7 @@ public class TestMovieDatabase{
       System.out.println("5. List Accounts");
       System.out.println("6. Add Movie");
       System.out.println("7. Add Actor");
-
+      int choice = sc.nextInt();
       switch (choice){
         case 1:
           System.out.println("Work In Progress");
@@ -71,7 +71,7 @@ public class TestMovieDatabase{
     }while (running);
 
   }
-
+/*
   public static Movies createMovie(){
 
   }
@@ -79,4 +79,5 @@ public class TestMovieDatabase{
   public static Actors createActor(){
 
   }
+*/
 }
