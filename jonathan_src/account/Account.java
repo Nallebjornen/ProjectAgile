@@ -1,4 +1,7 @@
 package account;
+import content.Movies;
+import people.Actors;
+import java.util.ArrayList;
 
 import java.util.Scanner;
 
@@ -70,6 +73,52 @@ public class Account{
 
   private String getEmail(){
     return email;
+  }
+
+  public Movies addMovie(){
+    String title, genre, language, plot, director, scriptwriter, release_dates;
+    byte age_limit;
+    short year;
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Please enter a title:");
+    title = sc.next();
+    System.out.println("Please choose a genre:");
+    genre = sc.next();
+    System.out.println("Please choose a language:");
+    language = sc.next();
+    System.out.println("Please provide a brief plot summary:");
+    plot = sc.next();
+    System.out.println("Please enter the name of the director:");
+    director = sc.next();
+    System.out.println("Please enter the name of the screenwriter:");
+    scriptwriter = sc.next();
+    //cast = sc.next;
+    System.out.println("Please enter a release date (YYYY-MM-DD):");
+    release_dates = sc.next();
+    System.out.println("Please enter the movie's age limit:");
+    age_limit = sc.nextByte();
+    System.out.println("Please enter the movie's production year:");
+    year = sc.nextShort();
+    Movies m = new Movies(title, genre, language, plot, director, scriptwriter, release_dates, age_limit, year);
+    return m;
+    /*
+    (String title,String genre,String language,String plot,
+                  String director,String scriptwriter,String release_dates,
+                  byte age_limit,short year)
+    */
+  }
+
+  public Actors addActor(){
+    String name, birthplace, date_of_birth;
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Please enter the actor's name");
+    name = sc.next();
+    System.out.println("Please enter the actor's date of birth (YYYY-MM-DD):");
+    date_of_birth = sc.next();
+    System.out.println("Please enter the actor's place of birth:");
+    birthplace = sc.next();
+    Actors a = new Actors(name, birthplace, date_of_birth);
+    return a;
   }
   @Override
   public String toString(){
