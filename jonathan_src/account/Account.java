@@ -10,7 +10,7 @@ public class Account{
   int id_nr;
   String username, password, email;
   //Account login();
-  protected Account(String username, String password, String email){
+  public Account(String username, String password, String email){
     this.username = username;
     this.password = password;
     this.email = email;
@@ -81,20 +81,20 @@ public class Account{
     short year;
     Scanner sc = new Scanner(System.in);
     System.out.println("Please enter a title:");
-    title = sc.next();
+    title = sc.nextLine();
     System.out.println("Please choose a genre:");
-    genre = sc.next();
+    genre = sc.nextLine();
     System.out.println("Please choose a language:");
-    language = sc.next();
+    language = sc.nextLine();
     System.out.println("Please provide a brief plot summary:");
-    plot = sc.next();
+    plot = sc.nextLine();
     System.out.println("Please enter the name of the director:");
-    director = sc.next();
+    director = sc.nextLine();
     System.out.println("Please enter the name of the screenwriter:");
-    scriptwriter = sc.next();
+    scriptwriter = sc.nextLine();
     //cast = sc.next;
     System.out.println("Please enter a release date (YYYY-MM-DD):");
-    release_dates = sc.next();
+    release_dates = sc.nextLine();
     System.out.println("Please enter the movie's age limit:");
     age_limit = sc.nextByte();
     System.out.println("Please enter the movie's production year:");
@@ -106,6 +106,27 @@ public class Account{
                   String director,String scriptwriter,String release_dates,
                   byte age_limit,short year)
     */
+  }
+
+  private String listGenres(){
+    String ac = "Action";
+    String dr = "Drama";
+    String co = "Comedy";
+    String ho = "Horror";
+    String ro = "Romance";
+    String sf = "Science Fiction";
+    String th = "Thriller";
+    String my = "Mystery";
+    String cr = "Crime";
+    ArrayList<String> genres = new ArrayList<String>();
+    genres.add(ac); genres.add(dr); genres.add(co); genres.add(ho);
+    genres.add(ro); genres.add(sf); genres.add(th); genres.add(my);
+    genres.add(cr);
+    System.out.println("Select genres to add:");
+    for (int i = 1; i<=genres.size()-1; i++){
+      System.out.println(i + ". " + genres.get(i));
+    }
+    return ""; //ÄNDRA SEDAN
   }
 
   public Actors addActor(){

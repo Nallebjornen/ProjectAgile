@@ -18,6 +18,8 @@ public class TestMovieDatabase{
     ArrayList<Actors> actors = new ArrayList<Actors>();
     TestApplication ta = new TestApplication();
     Scanner sc = new Scanner(System.in);
+    Account test_account = new Account("DemoAccount", "aaaeee", "who@cares.net");
+    ta.addCreatedAccount(test_account);
 
     System.out.println("Welcome to IthsMDB!");
     System.out.println("Product of PUZZLE" + "\n" + "------");
@@ -70,10 +72,14 @@ public class TestMovieDatabase{
           ta.listAccounts();
           break;
         case 7: //Add Movie
-          System.out.println("Work In Progress");
+          //System.out.println("Work In Progress");
+          Movies m = test_account.addMovie();
+          movies.add(m);
           break;
         case 8: //Add Actor
-          System.out.println("Work In Progress");
+          //System.out.println("Work In Progress");
+          Actors a = test_account.addActor();
+          actors.add(a);
           break;
         default:
           System.out.println("Invalid entry");

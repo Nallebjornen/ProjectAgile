@@ -30,7 +30,7 @@ public class Actors {
 
     @Override
     public String toString(){
-      return "Name: " + name + "\n " + "Birthplace: " + birthplace
+      return "Name: " + name + "\n" + "Birthplace: " + birthplace
       + "\n" + "Birthdate: " + date_of_birth + "\n" + "ID: " + id_nr;
     }
 }
