@@ -28,9 +28,14 @@ public class Actors {
       return date_of_birth;
     }
 
+    public int id_nr(){
+      return id_nr;
+    }
+
     @Override
     public String toString(){
       return "Name: " + name + "\n" + "Birthplace: " + birthplace
-      + "\n" + "Birthdate: " + date_of_birth + "\n" + "ID: " + id_nr;
+      + "\n" + "Birthdate: " + date_of_birth + "\n" + "ID: " + id_nr + "\n"
+       + "------";
     }
 }

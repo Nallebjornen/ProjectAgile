@@ -29,11 +29,25 @@ public class Movies{ //extends Media
         cast = new ArrayList<Actors>();
 
     }
+
+    public String title(){
+      return title;
+    }
+
+    public short year(){
+      return year;
+    }
+
+    public int id_nr(){
+      return id_nr;
+    }
+
     @Override
     public String toString(){
       return "Title: " + title + "\n" + "Production year: " + year + "\n" + "Genre: " + genre + "\n" +
       "Language: " + language + "\n" + "Plot: " + plot + "\n" + "Directed by: " + director + "\n"
       + "Written by: " + scriptwriter + "\n" + "Release: " + release_dates +
-       "\n" + "Age Limit: " + age_limit + "\n" + "ID Nr.: " + id_nr;
+       "\n" + "Age Limit: " + age_limit + "\n" + "ID Nr.: " + id_nr + "\n"
+        + "------";
     }
 }

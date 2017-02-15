@@ -133,11 +133,11 @@ public class Account{
     String name, birthplace, date_of_birth;
     Scanner sc = new Scanner(System.in);
     System.out.println("Please enter the actor's name");
-    name = sc.next();
+    name = sc.nextLine();
     System.out.println("Please enter the actor's date of birth (YYYY-MM-DD):");
-    date_of_birth = sc.next();
+    date_of_birth = sc.nextLine();
     System.out.println("Please enter the actor's place of birth:");
-    birthplace = sc.next();
+    birthplace = sc.nextLine();
     Actors a = new Actors(name, birthplace, date_of_birth);
     return a;
   }

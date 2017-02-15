@@ -33,6 +33,9 @@ public class TestMovieDatabase{
       System.out.println("6. List Accounts");
       System.out.println("7. Add Movie");
       System.out.println("8. Add Actor");
+      System.out.println("9. Delete Movie");
+      System.out.println("10. Delete Actor");
+      System.out.println("11. Exit");
       //try{
         choice = sc.nextInt();
 /*
@@ -80,6 +83,52 @@ public class TestMovieDatabase{
           //System.out.println("Work In Progress");
           Actors a = test_account.addActor();
           actors.add(a);
+          break;
+        case 9: //Delete Movie
+          for (int i = 0; i < movies.size(); i++){
+            System.out.println(movies.get(i).title() + " (" + movies.get(i).year() + "). ID: " + movies.get(i).id_nr());
+          }
+          int remove_id_movie;
+          boolean found_movie = false;
+          System.out.println("Enter the ID of the movie to remove");
+          remove_id_movie = sc.nextInt();
+          for (int j = 0; j < movies.size(); j++){
+            if (movies.get(j).id_nr() == remove_id_movie){
+              found_movie = true;
+              movies.remove(j);
+            }
+          }
+          if (found_movie){
+            System.out.println("Film removed");
+          }
+          else{
+            System.out.println("No film with that ID");
+          }
+          break;
+        case 10: //Delete Actor
+          for (int i = 0; i < actors.size(); i++){
+            System.out.println(actors.get(i).name() + ". ID: " + actors.get(i).id_nr());
+          }
+          int remove_id_actor;
+          boolean found_actor = false;
+          System.out.println("Enter the ID of the actor to remove");
+          remove_id_actor = sc.nextInt();
+          for (int j = 0; j < actors.size(); j++){
+            if (actors.get(j).id_nr() == remove_id_actor){
+              found_actor = true;
+              actors.remove(j);
+            }
+          }
+          if (found_actor){
+            System.out.println("Actor removed");
+          }
+          else{
+            System.out.println("No actor with that ID");
+          }
+          break;
+        case 11:
+          System.out.println("Bye-bye!");
+          running = false;
           break;
         default:
           System.out.println("Invalid entry");
