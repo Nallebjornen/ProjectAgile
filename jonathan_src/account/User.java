@@ -25,11 +25,11 @@ public class User extends Account{
 
   }
 
-  private int getID(){
+  public int getID(){
     return id_nr;
   }
 
-  private String getUsername(){
+  public String getUsername(){
     return username;
   }
 

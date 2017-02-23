@@ -2,7 +2,9 @@ package account;
 import content.Movies;
 import people.Actors;
 import java.util.ArrayList;
-
+import review.Review;
+import random.RandGen;
+import content.Media;
 import java.util.Scanner;
 
 public class Account{
@@ -14,6 +16,7 @@ public class Account{
     this.username = username;
     this.password = password;
     this.email = email;
+    id_nr = RandGen.RandNum();
   }
   /*
   //Från Account START
@@ -59,11 +62,11 @@ public class Account{
 
   }
 
-  private int getID(){
+  public int getID(){
     return id_nr;
   }
 
-  private String getUsername(){
+  public String getUsername(){
     return username;
   }
 
@@ -75,7 +78,7 @@ public class Account{
     return email;
   }
 
-  public Movies addMovie(){
+  public Media addMovie(){
     String title, genre, language, plot, director, scriptwriter, release_dates;
     byte age_limit;
     short year;
@@ -99,13 +102,41 @@ public class Account{
     age_limit = sc.nextByte();
     System.out.println("Please enter the movie's production year:");
     year = sc.nextShort();
-    Movies m = new Movies(title, genre, language, plot, director, scriptwriter, release_dates, age_limit, year);
+    Media m = new Movies(title, genre, language, plot, director, scriptwriter, release_dates, age_limit, year);
     return m;
     /*
     (String title,String genre,String language,String plot,
                   String director,String scriptwriter,String release_dates,
                   byte age_limit,short year)
     */
+  }
+
+  public Review createReview(int user_id, Media movie_to_review){
+    Scanner sc = new Scanner(System.in);
+    String review_text;
+    byte grade;
+    //boolean length_OK = false;
+    do{
+      System.out.println("Enter your review text (max 240 characters):");
+      review_text = sc.nextLine();
+    }while (review_text.length()>240 && review_text == "" && review_text == null);
+    /*
+    while (length_OK == false){
+      if (review_text.length()<=240){ //DO WHILE review_text.length()>=241
+        length_OK = true;
+      }
+      else {
+        review_text = enterReviewText();
+      }
+    }
+    */
+    do{
+      System.out.println("Enter your grade (1-5)");
+      grade = sc.nextByte();
+    }while (grade>5 && grade<1);
+
+    Review review = new Review(review_text, grade, user_id, username, movie_to_review.id_nr());
+    return review;
   }
 
   private String listGenres(){
@@ -145,6 +176,7 @@ public class Account{
   public String toString(){
     return "Username: " + getUsername() + "\n" +
           "Email: " + getEmail() + "\n" +
-          "Password: " + getPassword();
+          "Password: " + getPassword() + "\n" +
+          "ID: " + getID();
   }
 }
