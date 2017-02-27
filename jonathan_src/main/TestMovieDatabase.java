@@ -12,7 +12,7 @@ public class TestMovieDatabase{
   public static void main(String[] args) {
     boolean logged_in = false; //Avser inloggningsfunktion; läggs till i senare sprint
     boolean admin = false; //--""--
-    boolean user = false; //--""--
+    boolean user = true; //--""--
     boolean running = true;
     final String SEPARATOR = "------------";
     int choice; //för menyn
@@ -20,15 +20,20 @@ public class TestMovieDatabase{
     ArrayList<Actors> actors = new ArrayList<Actors>();
     TestApplication ta = new TestApplication();
     Scanner sc = new Scanner(System.in);
+    Account start_account = new User("standard", "!#¤%&/()", "none@email.com");
+    ta.addCreatedAccount(start_account);
+    Account active_account = start_account;
 
     //Demonstrationsinstanser
     Account test_account = new Account("DemoAccount", "aaaeee", "who@cares.net");
     ta.addCreatedAccount(test_account);
     byte standard_age = 11;
     short r1 = 1940; short r2 = 2016;
-    Media mo1 = new Movies("Citizen Kane", "Drama", "English", "A journalist searches for the meaning of a dead millionaire's last words",
+    Media mo1 = new Movies("Citizen Kane", "Drama", "English",
+     "A journalist searches for the meaning of a dead millionaire's last words",
     "Orson Welles", "Orson Welles", "1941", standard_age, r1);
-    Media mo2 = new Movies("Gods of Egypt", "Fantasy", "English", "Blablabla", "Unknown", "Unknown", "2016", standard_age, r2);
+    Media mo2 = new Movies("Gods of Egypt", "Fantasy", "English", "Blablabla",
+                            "Unknown", "Unknown", "2016", standard_age, r2);
     movies.add(mo1); movies.add(mo2);
     byte review_byte = 2;
     Review test_review = new Review("This movie sucks", review_byte, test_account.getID(),
@@ -62,7 +67,7 @@ public class TestMovieDatabase{
       }*/
       switch (choice){
         case 1: //My Account Information
-          System.out.println("Work In Progress");
+          System.out.println("Active account:" + "\n" + active_account);
           System.out.println(SEPARATOR);
           break;
         case 2: //Create Account
@@ -70,13 +75,20 @@ public class TestMovieDatabase{
             System.out.println("Already logged in");
           }
           else{
-            Account temp = ta.createAccount();
-            ta.addCreatedAccount(temp);
+            Account temp = ta.createAccount(); //Objekt skapas som vanliga accounts
+            if(temp!=null){
+              ta.addCreatedAccount(temp);
+            }
+            else{
+              System.out.println("Account creation cancelled");
+            }
           }
         System.out.println(SEPARATOR);
         break;
         case 3: //Log In
-          System.out.println("Work In Progress");
+          //System.out.println("Work In Progress");
+          Account login_account = ta.logIn(active_account);
+          active_account = login_account;
           System.out.println(SEPARATOR);
           break;
         case 4: //List Movies
@@ -196,6 +208,16 @@ public class TestMovieDatabase{
     }while (running);
 
   }
+
+  /*
+  //ANVÄNDS SENARE VID UTSKRIFT AV MENY
+  public static String printAccess(Account a){
+    if (a instanceof User){
+      return " (NOT AUTHORIZED)";
+    }
+    else return "";
+  }
+  */
   //(title,genre,language,plot,director,scriptwriter,cast,release_dates,age_limit,year)
 /*
   public static Movies addMovie(){

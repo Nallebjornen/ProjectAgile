@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class TestApplication {
 
   ArrayList<Account> accounts;
-
+  public final String[] authorization_codes = {"ABCDEFG", "ZYXWVU", "A1B2C3D4"};
   public TestApplication(){
     accounts = new ArrayList<Account>();
   }
@@ -56,9 +56,44 @@ public class TestApplication {
     //do{
       password = enterAccountPassword();
     //}while (password == "");
-    Account newAccount = new Account(username, password, email);
-    //sc.close();
-    return newAccount;
+    Account preAccount = new Account(username, password, email);
+    Account newAccount = null;
+    int createAccountChoice = 0;
+    String attempted_authorization_code;
+    boolean found_authorization_code = false;
+    boolean accountFinished = false;
+    do{
+      System.out.println("What kind of account?" + "\n" + "1. User" + "\n" + "2. Admin"
+                           + "\n" + "3. Cancel");
+      createAccountChoice = sc.nextInt();
+      switch (createAccountChoice){
+        case 1: System.out.println("Enter authorization code:");
+                attempted_authorization_code = sc.nextLine();
+                for (int i = 0; i < authorization_codes.length; i++){
+                  if (authorization_codes[i].equals(attempted_authorization_code)){
+                    found_authorization_code = true;
+                  }
+                }
+                if (found_authorization_code){
+                  Admin newAdmin = new Admin(preAccount.getUsername(), preAccount.getPassword(),
+                                              preAccount.getEmail());
+                  newAccount = newAdmin;
+                  return newAccount;
+                }
+                break;
+        case 2: User newUser = new User(preAccount.getUsername(), preAccount.getPassword(),
+                                    preAccount.getEmail());
+                newAccount = newUser;
+                return newAccount;
+        case 3: System.out.println("Returning to main menu");
+                accountFinished = true;
+                break;
+        default: System.out.println("Invalid entry");
+                 break;
+      }
+      //sc.close();
+    }while(accountFinished = false);
+    return newAccount; //Det slutgiltiga kontot som returneras
   }
 
   //UNDANLAGD TILLS VIDARE
@@ -106,6 +141,41 @@ public class TestApplication {
       return ""; //Kan vara anledningen till att intryckningen upprepas en gång för mycket vid felskrevning
   }
   //Från Account SLUT
+
+  public Account logIn(Account active_account){
+    //accounts
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Enter the username you want to log in to:");
+    String attempted_username = sc.nextLine();
+    boolean found_username = false;
+    Account dummy = null; //Försök till pekare ("pointer"); ej säkert att det fungerar
+    //ERSÄTT SÖKNING MED EN MAP DÄR USERNAME ÄR KEY OCH VALUE ÄR ACCOUNT
+      for (int i = 0; i<accounts.size(); i++){
+        if (accounts.get(i).getUsername().equals(attempted_username)){ //Hittar ej inlagt användarnamn
+          dummy = accounts.get(i);
+          //Skrivs inte ut
+          //System.out.println("Debug: username found: " + accounts.get(i) + " VS " + attempted_username);
+          found_username = true;
+        }
+      }
+      //System.out.println("Debug: found_username: " + found_username);
+      if (found_username){
+        System.out.println("Please enter your password:");
+        int attempts = 0;
+        do{
+          String attempt_password = sc.nextLine();
+          if (attempt_password.equals(dummy.getPassword())){
+            return dummy;
+          }
+          attempts++;
+          if (attempts>0){
+            System.out.println((3 - attempts) + " attempts left");
+          }
+        }while (attempts<3);
+      }
+      System.out.println("Failed to log in.");
+      return active_account;
+  }
 
   public void listAccounts(){
     if (accounts.size()>0){

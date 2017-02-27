@@ -58,8 +58,11 @@ public class Account{
   */
   //Från Account SLUT
 
-  private void manageAccount(){
-
+  public void manageAccount(){
+    System.out.println("Please choose an action:");
+    //System.out.println("You are logged in as: ");
+    System.out.println("1. Change your password");
+    System.out.println("2. Change your email");
   }
 
   public int getID(){
@@ -70,11 +73,11 @@ public class Account{
     return username;
   }
 
-  private String getPassword(){
+  public String getPassword(){
     return password;
   }
 
-  private String getEmail(){
+  public String getEmail(){
     return email;
   }
 
@@ -178,5 +181,18 @@ public class Account{
           "Email: " + getEmail() + "\n" +
           "Password: " + getPassword() + "\n" +
           "ID: " + getID();
+  }
+
+  @Override
+  public boolean equals(Object obj){
+    if ((obj instanceof Account) && (obj != null)){
+      Account other_account = (Account)obj;
+      if (this.username==other_account.getUsername() && this.password==other_account.getPassword()
+          && this.email==other_account.getEmail() && this.id_nr==other_account.getID()){
+            return true;
+          }
+      else return false;
+    }
+    else return false;
   }
 }
