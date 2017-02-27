@@ -10,9 +10,8 @@ import java.util.InputMismatchException;
 
 public class TestMovieDatabase{
   public static void main(String[] args) {
-    boolean logged_in = false; //Avser inloggningsfunktion; läggs till i senare sprint
+    boolean logged_in = false; //Avser inloggningsfunktion
     boolean admin = false; //--""--
-    boolean user = true; //--""--
     boolean running = true;
     final String SEPARATOR = "------------";
     int choice; //för menyn
@@ -20,12 +19,12 @@ public class TestMovieDatabase{
     ArrayList<Actors> actors = new ArrayList<Actors>();
     TestApplication ta = new TestApplication();
     Scanner sc = new Scanner(System.in);
-    Account start_account = new User("standard", "!#¤%&/()", "none@email.com");
+    Account start_account = new Account("standard", "!#¤%&/()", "none@email.com");
     ta.addCreatedAccount(start_account);
     Account active_account = start_account;
 
     //Demonstrationsinstanser
-    Account test_account = new Account("DemoAccount", "aaaeee", "who@cares.net");
+    Account test_account = new Account("DemoAccount", "aaaeee", "who@cares.net", true);
     ta.addCreatedAccount(test_account);
     byte standard_age = 11;
     short r1 = 1940; short r2 = 2016;
@@ -44,6 +43,9 @@ public class TestMovieDatabase{
     System.out.println("Welcome to IthsMDB!");
     System.out.println("Product of PUZZLE" + "\n" + "------");
     do{
+      if(active_account.getID()!=0){
+        logged_in = true;
+      }
       System.out.println("Select an action");
       System.out.println("1. My Account Information");
       System.out.println("2. Create Account");
@@ -56,7 +58,8 @@ public class TestMovieDatabase{
       System.out.println("9. Delete Movie");
       System.out.println("10. Delete Actor");
       System.out.println("11. Review Movie");
-      System.out.println("12. Exit");
+      System.out.println("12. Log Out");
+      System.out.println("13. Exit");
       //KOLLA UPP JAVA KEYEVENT:
       //https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
       //try{
@@ -68,6 +71,15 @@ public class TestMovieDatabase{
       switch (choice){
         case 1: //My Account Information
           System.out.println("Active account:" + "\n" + active_account);
+          System.out.println("Change the following information?" + "\n" +
+                            "1. Yes" + "\n" + "2. No");
+          int account_info_choice = sc.nextInt();
+          if (account_info_choice == 1){
+            ta.manageAccount(active_account, logged_in);
+          }
+          else{
+            System.out.println("Returning to main menu");
+          }
           System.out.println(SEPARATOR);
           break;
         case 2: //Create Account
@@ -89,6 +101,8 @@ public class TestMovieDatabase{
           //System.out.println("Work In Progress");
           Account login_account = ta.logIn(active_account);
           active_account = login_account;
+          admin = active_account.getAdminStatus();
+          logged_in = true;
           System.out.println(SEPARATOR);
           break;
         case 4: //List Movies
@@ -120,61 +134,75 @@ public class TestMovieDatabase{
           break;
         case 7: //Add Movie
           //System.out.println("Work In Progress");
-          Media m = test_account.addMovie();
-          movies.add(m);
+          if(admin == true){
+            Media m = test_account.addMovie();
+            movies.add(m);
+          }
+          else System.out.println("You are not authorized");
           System.out.println(SEPARATOR);
           break;
         case 8: //Add Actor
           //System.out.println("Work In Progress");
-          Actors a = test_account.addActor();
-          actors.add(a);
+          if (admin == true){
+            Actors a = test_account.addActor();
+            actors.add(a);
+          }
+          else System.out.println("You are not authorized");
           System.out.println(SEPARATOR);
           break;
         case 9: //Delete Movie
-          for (int i = 0; i < movies.size(); i++){
-            System.out.println(movies.get(i).title() + " (" + movies.get(i).year() + "). ID: " + movies.get(i).id_nr());
-          }
-          int remove_id_movie;
-          boolean found_movie = false;
-          System.out.println("Enter the ID of the movie to remove");
-          remove_id_movie = sc.nextInt();
-          for (int j = 0; j < movies.size(); j++){
-            if (movies.get(j).id_nr() == remove_id_movie){
-              found_movie = true;
-              movies.remove(j);
+          if (admin == true){
+            for (int i = 0; i < movies.size(); i++){
+              System.out.println(movies.get(i).title() + " (" + movies.get(i).year() + "). ID: " + movies.get(i).id_nr());
+            }
+            int remove_id_movie;
+            boolean found_movie = false;
+            System.out.println("Enter the ID of the movie to remove");
+            remove_id_movie = sc.nextInt();
+            for (int j = 0; j < movies.size(); j++){
+              if (movies.get(j).id_nr() == remove_id_movie){
+                found_movie = true;
+                movies.remove(j);
+              }
+            }
+            if (found_movie){
+              System.out.println("Film removed");
+            }
+            else{
+              System.out.println("No film with that ID");
             }
           }
-          if (found_movie){
-            System.out.println("Film removed");
-          }
-          else{
-            System.out.println("No film with that ID");
-          }
+          else System.out.println("You are not authorized");
           System.out.println(SEPARATOR);
           break;
         case 10: //Delete Actor
-          for (int i = 0; i < actors.size(); i++){
-            System.out.println(actors.get(i).name() + ". ID: " + actors.get(i).id_nr());
-          }
-          int remove_id_actor;
-          boolean found_actor = false;
-          System.out.println("Enter the ID of the actor to remove");
-          remove_id_actor = sc.nextInt();
-          for (int j = 0; j < actors.size(); j++){
-            if (actors.get(j).id_nr() == remove_id_actor){
-              found_actor = true;
-              actors.remove(j);
+          if (admin == true){
+            for (int i = 0; i < actors.size(); i++){
+              System.out.println(actors.get(i).name() + ". ID: " + actors.get(i).id_nr());
+            }
+            int remove_id_actor;
+            boolean found_actor = false;
+            System.out.println("Enter the ID of the actor to remove");
+            remove_id_actor = sc.nextInt();
+            for (int j = 0; j < actors.size(); j++){
+              if (actors.get(j).id_nr() == remove_id_actor){
+                found_actor = true;
+                actors.remove(j);
+              }
+            }
+            if (found_actor){
+              System.out.println("Actor removed");
+            }
+            else{
+              System.out.println("No actor with that ID");
             }
           }
-          if (found_actor){
-            System.out.println("Actor removed");
-          }
-          else{
-            System.out.println("No actor with that ID");
-          }
+          else System.out.println("You are not authorized");
+
           System.out.println(SEPARATOR);
           break;
         case 11: //Skriv recension for filmer
+        if (admin == false){
           for (int i = 0; i < movies.size(); i++){
             System.out.println(movies.get(i).title() + " (" + movies.get(i).year() + "). ID: " + movies.get(i).id_nr());
           }
@@ -194,9 +222,20 @@ public class TestMovieDatabase{
           else{
             System.out.println("No film with that ID");
           }
+        }
+        else System.out.println("You are not authorized");
+
           System.out.println(SEPARATOR);
           break;
         case 12:
+        if (logged_in == true){
+          System.out.println("Logging out");
+          active_account = start_account;
+        }
+        else System.out.println("No account is currently logged in");
+          System.out.println(SEPARATOR);
+          break;
+        case 13:
           System.out.println("Bye-bye!");
           running = false;
           break;

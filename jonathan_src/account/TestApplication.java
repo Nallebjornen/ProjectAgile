@@ -56,7 +56,8 @@ public class TestApplication {
     //do{
       password = enterAccountPassword();
     //}while (password == "");
-    Account preAccount = new Account(username, password, email);
+    //ÄNDRA TILL BARA SKAPA ACCOUNT
+    Account preAccount = new Account(username, email, password);
     Account newAccount = null;
     int createAccountChoice = 0;
     String attempted_authorization_code;
@@ -67,25 +68,26 @@ public class TestApplication {
                            + "\n" + "3. Cancel");
       createAccountChoice = sc.nextInt();
       switch (createAccountChoice){
-        case 1: System.out.println("Enter authorization code:");
+        case 1: Account newUser = new Account(preAccount.getUsername(), preAccount.getPassword(), //Admin
+                                    preAccount.getEmail(), false);
+                newAccount = newUser;
+                return newAccount;
+        case 2: System.out.println("Enter authorization code:"); //User
                 attempted_authorization_code = sc.nextLine();
-                for (int i = 0; i < authorization_codes.length; i++){
+                for (int i = 0; i < authorization_codes.length; i++){ //Lägg till begränsat antal försök
                   if (authorization_codes[i].equals(attempted_authorization_code)){
                     found_authorization_code = true;
                   }
                 }
                 if (found_authorization_code){
-                  Admin newAdmin = new Admin(preAccount.getUsername(), preAccount.getPassword(),
-                                              preAccount.getEmail());
+                  Account newAdmin = new Account(preAccount.getUsername(), preAccount.getPassword(),
+                                              preAccount.getEmail(), true);
                   newAccount = newAdmin;
                   return newAccount;
                 }
+                else System.out.println("Incorrect authorization code");
                 break;
-        case 2: User newUser = new User(preAccount.getUsername(), preAccount.getPassword(),
-                                    preAccount.getEmail());
-                newAccount = newUser;
-                return newAccount;
-        case 3: System.out.println("Returning to main menu");
+        case 3: System.out.println("Returning to main menu"); //Cancel
                 accountFinished = true;
                 break;
         default: System.out.println("Invalid entry");
@@ -187,6 +189,56 @@ public class TestApplication {
     }
     else System.out.println("No accounts stored");
   }
+
+  public void manageAccount(Account active_account, boolean logged_in){
+    Scanner sc = new Scanner(System.in);
+    if (logged_in){
+      boolean running_account_management = true;
+      do{
+        System.out.println("Please choose an action:");
+        System.out.println("You are logged in as: " + active_account.getUsername());
+        System.out.println("1. Change your password");
+        System.out.println("2. Change your email");
+        System.out.println("3. Cancel");
+        int manageAccountChoice = sc.nextInt();
+
+        switch (manageAccountChoice){
+          case 1:
+            System.out.println("Please enter your current password:"); //FUNGERAR EJ!!!
+            String compare_password = sc.nextLine();
+            if(compare_password.equals(active_account.getPassword())){
+              System.out.println("Enter your new password");
+              String new_password = sc.nextLine();
+              active_account.changePassword(new_password);
+              for(int i = 0; i<accounts.size(); i++){
+                if (accounts.get(i).getID()==active_account.getID()){
+                  accounts.set(i, active_account);
+                }
+              }
+            }
+            break;
+          case 2:
+            System.out.println("Please enter your new email adress:");
+            String new_email = sc.nextLine();
+            active_account.changeEmail(new_email);
+            for(int i = 0; i<accounts.size(); i++){
+              if (accounts.get(i).getID()==active_account.getID()){
+                accounts.set(i, active_account);
+              }
+            }
+            break;
+          case 3:
+            System.out.println("Cancelling account management");
+            running_account_management = false;
+            break;
+          default:
+            System.out.println("Invalid choice");
+            break;
+        }
+      }while(running_account_management);
+  }
+  else System.out.println("You are currently not logged in");
+}
 
   private boolean checkEmail(String email){
     boolean checkAt, checkDot;

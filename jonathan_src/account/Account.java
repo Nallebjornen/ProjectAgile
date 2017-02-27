@@ -11,11 +11,21 @@ public class Account{
 
   int id_nr;
   String username, password, email;
+  boolean admin_status;
+  ArrayList<Review> reviews;
   //Account login();
-  public Account(String username, String password, String email){
+  public Account(String username, String password, String email){ //För standard-kontot
     this.username = username;
     this.password = password;
     this.email = email;
+    //id_nr = RandGen.RandNum();
+  }
+  public Account(String username, String password, String email, boolean admin_status){
+    this.username = username;
+    this.password = password;
+    this.email = email;
+    this.admin_status = admin_status;
+    ArrayList<Review> reviews = new ArrayList<Review>();
     id_nr = RandGen.RandNum();
   }
   /*
@@ -58,13 +68,6 @@ public class Account{
   */
   //Från Account SLUT
 
-  public void manageAccount(){
-    System.out.println("Please choose an action:");
-    //System.out.println("You are logged in as: ");
-    System.out.println("1. Change your password");
-    System.out.println("2. Change your email");
-  }
-
   public int getID(){
     return id_nr;
   }
@@ -79,6 +82,18 @@ public class Account{
 
   public String getEmail(){
     return email;
+  }
+
+  public boolean getAdminStatus(){
+    return admin_status;
+  }
+
+  public void changePassword(String new_password){
+    this.password = new_password;
+  }
+
+  public void changeEmail(String new_email){
+    this.email = new_email;
   }
 
   public Media addMovie(){
@@ -112,6 +127,10 @@ public class Account{
                   String director,String scriptwriter,String release_dates,
                   byte age_limit,short year)
     */
+  }
+
+  public ArrayList<Review> getReviews(){
+    return reviews;
   }
 
   public Review createReview(int user_id, Media movie_to_review){

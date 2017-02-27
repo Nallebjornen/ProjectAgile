@@ -16,7 +16,7 @@ public class Admin extends Account{
     super(username, password, email);
     this.admin = true;
   }
-
+/*
   public void manageAccount(){
     super.manageAccount();
     System.out.println("3. Return to main menu");
@@ -39,7 +39,7 @@ public class Admin extends Account{
   private void changeEmail(){
 
   }
-
+*/
   public int getID(){
     return id_nr;
   }

@@ -16,7 +16,7 @@ public class User extends Account{
     super(username, password, email);
     this.admin = false;
   }
-
+  /*
   public void manageAccount(){
     super.manageAccount();
     System.out.println("3. See my reviews");
@@ -30,7 +30,7 @@ public class User extends Account{
   private void changeEmail(){
 
   }
-
+  */
   public int getID(){
     return id_nr;
   }
