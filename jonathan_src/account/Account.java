@@ -28,6 +28,7 @@ public class Account{
     ArrayList<Review> reviews = new ArrayList<Review>();
     id_nr = RandGen.RandNum();
   }
+  /*
   public Account(String username, String password, String email,
                   boolean admin_status, int id_nr, ArrayList<Review> reviews){
     this.username = username;
@@ -37,6 +38,7 @@ public class Account{
     this.reviews = reviews;
     this.id_nr = id_nr;
   }
+  */
   /*
   //Från Account START
   public Account createAccount(){

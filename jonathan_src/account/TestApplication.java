@@ -1,7 +1,8 @@
 package account;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import content.*;
+import people.*;
 public class TestApplication {
 
   ArrayList<Account> accounts;
@@ -57,7 +58,7 @@ public class TestApplication {
       password = enterAccountPassword();
     //}while (password == "");
     //ÄNDRA TILL BARA SKAPA ACCOUNT
-    Account preAccount = new Account(username, email, password);
+    Account preAccount = new Account(username, password, email);
     Account newAccount = null;
     int createAccountChoice = 0;
     String attempted_authorization_code;
@@ -201,14 +202,15 @@ public class TestApplication {
         System.out.println("2. Change your email");
         System.out.println("3. Cancel");
         int manageAccountChoice = sc.nextInt();
+        Scanner sc2 = new Scanner(System.in);
 
         switch (manageAccountChoice){
           case 1:
-            System.out.println("Please enter your current password:"); //FUNGERAR EJ!!!
-            String compare_password = sc.nextLine();
+            System.out.println("Please enter your current password:");
+            String compare_password = sc2.nextLine();
             if(compare_password.equals(active_account.getPassword())){
               System.out.println("Enter your new password");
-              String new_password = sc.nextLine();
+              String new_password = sc2.nextLine();
               active_account.changePassword(new_password);
               for(int i = 0; i<accounts.size(); i++){
                 if (accounts.get(i).getID()==active_account.getID()){
@@ -222,8 +224,16 @@ public class TestApplication {
             break;
           case 2:
             System.out.println("Please enter your new email adress:");
-            String new_email = sc.nextLine();
-            if(new_email!=null && new_email!=""){
+            String new_email = sc2.nextLine();
+            boolean email_not_null = true;
+            boolean email_not_blank = true;
+            if (new_email.equals(null)){
+              email_not_null = false;
+            }
+            if (new_email.equals("")){
+              email_not_blank = false;
+            }
+            if(email_not_blank==true && email_not_null==true){
               active_account.changeEmail(new_email);
               System.out.println("Email changed to " + new_email);
             }
@@ -284,4 +294,217 @@ public class TestApplication {
   public void addCreatedAccount(Account account){
     accounts.add(account);
   }
+
+  public Movies editMovie(Movies edit_movie, ArrayList<Actors> actors){
+    Scanner sc2 = new Scanner(System.in);
+    System.out.println(edit_movie);
+    System.out.println("What would you like to edit?");
+    boolean running_movie_edit = true;
+    int movie_edit_choice;
+
+    /*
+    (String title, String genre, String language, String plot,
+                  String director, String scriptwriter, String release_dates,
+                  byte age_limit, short year)
+                  */
+    do{
+      System.out.println("Select an action");
+      System.out.println("1. Change the title");
+      System.out.println("2. Change the production year");
+      System.out.println("3. Change the genre");
+      System.out.println("4. Add an actor to the cast");
+      System.out.println("5. Remove an actor from the cast");
+      System.out.println("6. Change the director");
+      System.out.println("7. Change the scriptwriter");
+      System.out.println("8. Add Actor plot");
+      System.out.println("9. Change the release date");
+      System.out.println("10. Change the age limit");
+      System.out.println("11. Cancel");
+      movie_edit_choice = sc2.nextInt();
+      switch (movie_edit_choice) {
+        case 1: //Title
+          System.out.println("Current title: " + edit_movie.title());
+          System.out.print("New title: ");
+          String new_title = sc2.nextLine();
+          edit_movie.changeTitle(new_title);
+          System.out.println("Title changed.");
+          break;
+        case 2: //Year
+          System.out.println("Current title: " + edit_movie.year());
+          System.out.print("New year: ");
+          int new_year = sc2.nextInt();
+          edit_movie.changeYear(new_year);
+          System.out.println("Year changed.");
+          break;
+        case 3: //Genre
+          System.out.println("Current genre: " + edit_movie.genre());
+          System.out.print("New genre: ");
+          String new_genre = sc2.nextLine();
+          edit_movie.changeGenre(new_genre);
+          System.out.println("Genre changed.");
+          break;
+        case 4: //Add Cast Member
+          System.out.println("Choose which actor to add");
+          for (int i = 0; i < actors.size(); i++){
+            System.out.println(actors.get(i).name() + ". ID: " + actors.get(i).id_nr());
+          }
+          System.out.println("Enter ID of actor to add to the cast");
+          int add_id_castmember;
+          do {
+            add_id_castmember = sc2.nextInt();
+            if(add_id_castmember<10000 || add_id_castmember>99999){
+              System.out.println("Invalid ID number");
+            }
+          } while (add_id_castmember<10000 && add_id_castmember>99999);
+          boolean found_cast_actor;
+          for (int j = 0; j < actors.size(); j++){
+            if (actors.get(j).id_nr() == add_id_castmember){
+              found_cast_actor = true;
+              edit_movie.addActorToCast(actors.get(j));
+              System.out.println("Actor added to cast");
+            }
+          }
+          break;
+
+        case 5: //Remove Cast Member
+          if (edit_movie.cast().size()>0) {
+            for (int i = 0; i<edit_movie.cast().size(); i++){
+              System.out.println(edit_movie.cast().get(i).name()+", DOB: " +
+              edit_movie.cast().get(i).date_of_birth() + ", ID: " + edit_movie.cast().get(i).id_nr());
+            }
+            System.out.println("Enter the ID of the cast member to be removed");
+            boolean found_castmember_remove = false;
+            int remove_id_castmember;
+            do {
+              remove_id_castmember = sc2.nextInt();
+              if(remove_id_castmember<10000 || remove_id_castmember>99999){
+                System.out.println("Invalid ID number");
+              }
+            } while (remove_id_castmember<10000 && remove_id_castmember>99999);
+            for (int j = 0; j < edit_movie.cast().size(); j++){
+              if (edit_movie.cast().get(j).id_nr() == remove_id_castmember){
+                found_castmember_remove = true;
+                edit_movie.cast().remove(j);
+              }
+            }
+          }
+          else {
+            System.out.println("The cast is currently empty");
+          }
+          break;
+        case 6: //Change director
+          System.out.println("Current director: " + edit_movie.director());
+          System.out.print("New director: ");
+          String new_director = sc2.nextLine();
+          edit_movie.changeTitle(new_director);
+          System.out.println("Director changed.");
+          break;
+        case 7: //Change scriptwriter
+          System.out.println("Current scriptwriter: " + edit_movie.scriptwriter());
+          System.out.print("New title: ");
+          String new_scriptwriter = sc2.nextLine();
+          edit_movie.changeTitle(new_scriptwriter);
+          System.out.println("Screenwriter changed.");
+          break;
+        case 8: //Change plot
+          System.out.println("Current plot: " + "\n" + edit_movie.plot());
+          System.out.print("New plot: ");
+          String new_plot;
+          do{
+            new_plot = sc2.nextLine();
+          }while(new_plot.length()>240 || new_plot.length()<1);
+          edit_movie.changePlot(new_plot);
+          System.out.println("Plot changed.");
+          break;
+        case 9: //Change release date
+          System.out.println("Current release date: " + edit_movie.release_dates());
+          System.out.print("New release date: ");
+          String new_release = sc2.nextLine();
+          edit_movie.changeReleaseDate(new_release);
+          System.out.println("Release date changed.");
+          break;
+        case 10: //Change age limit
+          System.out.println("Current age limit: " + edit_movie.age_limit());
+          System.out.print("New age limit: ");
+          int new_age_limit;
+          do {
+            new_age_limit = sc2.nextInt();
+          } while (new_age_limit>90 && new_age_limit<0);
+          edit_movie.changeAgeLimit(new_age_limit);
+          System.out.println("Age limit changed.");
+          break;
+        case 11: //Cancel
+          System.out.println("Returning to main menu");
+          running_movie_edit = false;
+          break;
+        default:
+          System.out.println("Invalid entry");
+          break;
+      }
+    } while (running_movie_edit);
+    return edit_movie;
+  }
+
+  public Actors editActor(Actors edit_actor){
+    Scanner sc2 = new Scanner(System.in);
+    System.out.println(edit_actor);
+    System.out.println("What would you like to edit?");
+    boolean running_actor_edit = true;
+    int actor_edit_choice;
+    do {
+      System.out.println("Select an action");
+      System.out.println("1. Change the actor's name");
+      System.out.println("2. Change the actor's date of birth");
+      System.out.println("3. Change the actor's place of birth");
+      System.out.println("4. Cancel");
+      actor_edit_choice = sc2.nextInt();
+      switch (actor_edit_choice){
+        case 1: //Change name
+          System.out.println("Current name: " + edit_actor.name());
+          System.out.print("Enter a new name: ");
+          String new_name;
+          do {
+            new_name = sc2.nextLine();
+            if (new_name.equals(null) || new_name.equals("")){
+              System.out.println("Invalid entry");
+            }
+          } while (new_name.equals(null) || new_name.equals(""));
+          edit_actor.changeName(new_name);
+          break;
+        case 2: //Change date of birth
+          System.out.println("Current date of birth: " + edit_actor.date_of_birth());
+          System.out.print("Enter a new date of birth: ");
+          String new_date_of_birth;
+          do {
+            new_date_of_birth = sc2.nextLine();
+            if (new_date_of_birth.equals(null) || new_date_of_birth.equals("")){
+              System.out.println("Invalid entry");
+            }
+          } while (new_date_of_birth.equals(null) || new_date_of_birth.equals(""));
+          edit_actor.changeDateOfBirth(new_date_of_birth);
+          break;
+        case 3: //Change place of birth
+          System.out.println("Current place of birth: " + edit_actor.birthplace());
+          System.out.print("Enter a new place of birth: ");
+          String new_place_of_birth;
+          do {
+            new_place_of_birth = sc2.nextLine();
+            if (new_place_of_birth.equals(null) || new_place_of_birth.equals("")){
+              System.out.println("Invalid entry");
+            }
+          } while (new_place_of_birth.equals(null) || new_place_of_birth.equals(""));
+          edit_actor.changeBirthplace(new_place_of_birth);
+          break;
+        case 4: //Cancel
+          System.out.println("Returning to main menu");
+          running_actor_edit = false;
+          break;
+        default:
+          System.out.println("Invalid entry");
+          break;
+      }
+    } while (running_actor_edit);
+    return edit_actor;
+  }
+
 }

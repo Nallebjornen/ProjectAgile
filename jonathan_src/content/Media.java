@@ -69,6 +69,9 @@ public class Media {
   public ArrayList<Review> reviews(){
     return reviews;
   }
+  public ArrayList<Actors> cast(){
+    return cast;
+  }
   public void addReview(Review review){
     reviews.add(review);
   }

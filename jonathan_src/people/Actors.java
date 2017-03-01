@@ -8,6 +8,7 @@ public class Actors {
 
     String name, birthplace, date_of_birth;
     ArrayList<Movies> performances;
+    //HashMap movies performances???
     int id_nr;
 
     public Actors(String name, String birthplace, String date_of_birth){
@@ -27,9 +28,18 @@ public class Actors {
     public String date_of_birth(){
       return date_of_birth;
     }
-
     public int id_nr(){
       return id_nr;
+    }
+
+    public void changeName(String name){
+      this.name = name;
+    }
+    public void changeBirthplace(String birthplace){
+      this.birthplace = birthplace;
+    }
+    public void changeDateOfBirth(String date_of_birth){
+      this.date_of_birth = date_of_birth;
     }
 
     @Override

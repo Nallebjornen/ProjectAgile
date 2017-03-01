@@ -24,8 +24,10 @@ public class TestMovieDatabase{
     Account active_account = start_account;
 
     //Demonstrationsinstanser
-    Account test_account = new Account("DemoAccount", "aaaeee", "who@cares.net", true);
-    ta.addCreatedAccount(test_account);
+    Account test_admin = new Account("DemoAdmin", "aaaeee", "who@cares.net", true);
+    ta.addCreatedAccount(test_admin);
+    Account test_user = new Account("DemoUser", "bbbfff", "user@iths.se", false);
+    ta.addCreatedAccount(test_user);
     byte standard_age = 11;
     short r1 = 1940; short r2 = 2016;
     Media mo1 = new Movies("Citizen Kane", "Drama", "English",
@@ -35,16 +37,26 @@ public class TestMovieDatabase{
                             "Unknown", "Unknown", "2016", standard_age, r2);
     movies.add(mo1); movies.add(mo2);
     byte review_byte = 2;
-    Review test_review = new Review("This movie sucks", review_byte, test_account.getID(),
-                                    test_account.getUsername(), mo2.id_nr());
+    Review test_review = new Review("This movie sucks", review_byte, test_user.getID(),
+                                    test_user.getUsername(), mo2.id_nr());
     mo2.addReview(test_review);
     Actors ac1 = new Actors("Orson Welles", "USA", "1915-05-06");
+    Actors r_gosling = new Actors("Ryan Gosling", "Canada", "1978/05/01");
+    actors.add(r_gosling);
+    Actors e_stone = new Actors("Emma Stone", "USA", "1980/06/03");
+    actors.add(e_stone);
 
     System.out.println("Welcome to IthsMDB!");
     System.out.println("Product of PUZZLE" + "\n" + "------");
     do{
       if(active_account.getID()!=0){
         logged_in = true;
+      }
+      if(active_account.getAdminStatus()==true){
+        admin = true;
+      }
+      else {
+        admin = false;
       }
       System.out.println("Select an action");
       System.out.println("1. My Account Information");
@@ -59,7 +71,9 @@ public class TestMovieDatabase{
       System.out.println("10. Delete Actor");
       System.out.println("11. Review Movie");
       System.out.println("12. Log Out");
-      System.out.println("13. Exit");
+      System.out.println("13. Alter Movie Information");
+      System.out.println("14. Alter Actor Information");
+      System.out.println("15. Exit");
       //KOLLA UPP JAVA KEYEVENT:
       //https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html
       //try{
@@ -100,7 +114,6 @@ public class TestMovieDatabase{
         System.out.println(SEPARATOR);
         break;
         case 3: //Log In
-          //System.out.println("Work In Progress");
           Account login_account = ta.logIn(active_account);
           active_account = login_account;
           admin = active_account.getAdminStatus();
@@ -114,11 +127,12 @@ public class TestMovieDatabase{
             if (movies.get(i).reviews().size()>0){
               System.out.println("Reviews:");
               for (int j = 0; j<movies.get(i).reviews().size(); j++){
-                System.out.println(movies.get(i).reviews().get(j));
+                System.out.println(SEPARATOR + "\n" + movies.get(i).reviews().get(j));
               }
+
             }
             else{
-              System.out.println("No reviews");
+              System.out.println("No reviews" + "\n" + SEPARATOR);
             }
           }
           System.out.println(SEPARATOR);
@@ -137,7 +151,7 @@ public class TestMovieDatabase{
         case 7: //Add Movie
           //System.out.println("Work In Progress");
           if(admin == true){
-            Media m = test_account.addMovie();
+            Media m = active_account.addMovie();
             movies.add(m);
           }
           else System.out.println("You are not authorized");
@@ -146,7 +160,7 @@ public class TestMovieDatabase{
         case 8: //Add Actor
           //System.out.println("Work In Progress");
           if (admin == true){
-            Actors a = test_account.addActor();
+            Actors a = active_account.addActor();
             actors.add(a);
           }
           else System.out.println("You are not authorized");
@@ -215,7 +229,8 @@ public class TestMovieDatabase{
           for (int j = 0; j < movies.size(); j++){
             if (movies.get(j).id_nr() == review_id_movie){
               found_review_movie = true;
-              Review temp_review = test_account.createReview(test_account.getID(), movies.get(j));
+              Review temp_review = active_account.createReview(active_account.getID(), movies.get(j));
+              movies.get(j).addReview(temp_review);
             }
           }
           if (found_review_movie){
@@ -229,15 +244,39 @@ public class TestMovieDatabase{
 
           System.out.println(SEPARATOR);
           break;
-        case 12:
+        case 12: //Log out
         if (logged_in == true){
           System.out.println("Logging out");
+          logged_in = false;
+          admin = false;
           active_account = start_account;
         }
         else System.out.println("No account is currently logged in");
           System.out.println(SEPARATOR);
           break;
-        case 13:
+        case 13: //Ändra film
+          System.out.println("Work In Progress");
+          if (admin == true){
+            for (int i = 0; i < movies.size(); i++){
+              System.out.println(movies.get(i).title() + " (" + movies.get(i).year() + "). ID: " + movies.get(i).id_nr());
+            }
+          }
+          else{
+            System.out.println("You are not authorized for this function");
+          }
+          break;
+        case 14: //Ändra skådespelare
+          System.out.println("Work In Progress");
+          if (admin == true){
+            for (int i = 0; i < actors.size(); i++){
+              System.out.println(actors.get(i).name() + ". ID: " + actors.get(i).id_nr());
+            }
+          }
+          else{
+            System.out.println("You are not authorized for this function");
+          }
+          break;
+        case 15:
           System.out.println("Bye-bye!");
           running = false;
           break;

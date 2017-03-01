@@ -34,6 +34,8 @@ public class Movies extends Media{ //extends Media
         reviews = new ArrayList<Review>();
         */
     }
+
+    //Returfunktioner
     public String title(){
       return super.title();
     }
@@ -67,11 +69,46 @@ public class Movies extends Media{ //extends Media
     public ArrayList<Review> reviews(){
       return super.reviews();
     }
+    public ArrayList<Actors> cast(){
+      return super.cast();
+    }
+    //Tilläggsfunktioner
     public void addReview(Review review){
       super.addReview(review);
     }
     public void addActorToCast(Actors a){
       super.addActorToCast(a);
+    }
+
+    //Ändringsfunktioner
+    public void changeTitle(String title){
+      this.title = title;
+    }
+    public void changeYear(int year){
+      short new_year = (short)year;
+      this.year = new_year;
+    }
+    public void changePlot(String plot){
+      this.plot = plot;
+    }
+    public void changeGenre(String genre){
+      this.genre = genre;
+    }
+    public void changeLanguage(String language){
+      this.language = language;
+    }
+    public void changeDirector(String director){
+      this.director = director;
+    }
+    public void changeScriptwriter(String scriptwriter){
+      this.scriptwriter = scriptwriter;
+    }
+    public void changeReleaseDate(String release_dates){
+      this.release_dates = release_dates;
+    }
+    public void changeAgeLimit(int age_limit){
+      byte new_age_limit = (byte)age_limit;
+      this.age_limit = new_age_limit;
     }
     @Override
     public String toString(){
