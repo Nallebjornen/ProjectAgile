@@ -71,14 +71,16 @@ public class TestMovieDatabase{
       switch (choice){
         case 1: //My Account Information
           System.out.println("Active account:" + "\n" + active_account);
-          System.out.println("Change the following information?" + "\n" +
-                            "1. Yes" + "\n" + "2. No");
-          int account_info_choice = sc.nextInt();
-          if (account_info_choice == 1){
-            ta.manageAccount(active_account, logged_in);
-          }
-          else{
-            System.out.println("Returning to main menu");
+          if(active_account.getID()!=0){
+            System.out.println("Change the following information?" + "\n" +
+                              "1. Yes" + "\n" + "2. No");
+            int account_info_choice = sc.nextInt();
+            if (account_info_choice == 1){
+              active_account = ta.manageAccount(active_account, logged_in);
+            }
+            else{
+              System.out.println("Returning to main menu");
+            }
           }
           System.out.println(SEPARATOR);
           break;

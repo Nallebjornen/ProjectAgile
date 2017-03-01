@@ -28,6 +28,15 @@ public class Account{
     ArrayList<Review> reviews = new ArrayList<Review>();
     id_nr = RandGen.RandNum();
   }
+  public Account(String username, String password, String email,
+                  boolean admin_status, int id_nr, ArrayList<Review> reviews){
+    this.username = username;
+    this.password = password;
+    this.email = email;
+    this.admin_status = admin_status;
+    this.reviews = reviews;
+    this.id_nr = id_nr;
+  }
   /*
   //Från Account START
   public Account createAccount(){
@@ -197,9 +206,8 @@ public class Account{
   @Override
   public String toString(){
     return "Username: " + getUsername() + "\n" +
-          "Email: " + getEmail() + "\n" +
-          "Password: " + getPassword() + "\n" +
-          "ID: " + getID();
+          (getID()>0? "Email: " + getEmail() + "\n" +
+          "Password: " + getPassword() + "\n" + "ID: " + getID() : "");
   }
 
   @Override

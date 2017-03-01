@@ -190,7 +190,7 @@ public class TestApplication {
     else System.out.println("No accounts stored");
   }
 
-  public void manageAccount(Account active_account, boolean logged_in){
+  public Account manageAccount(Account active_account, boolean logged_in){
     Scanner sc = new Scanner(System.in);
     if (logged_in){
       boolean running_account_management = true;
@@ -216,11 +216,20 @@ public class TestApplication {
                 }
               }
             }
+            else{
+              System.out.println("Incorrect password");
+            }
             break;
           case 2:
             System.out.println("Please enter your new email adress:");
             String new_email = sc.nextLine();
-            active_account.changeEmail(new_email);
+            if(new_email!=null && new_email!=""){
+              active_account.changeEmail(new_email);
+              System.out.println("Email changed to " + new_email);
+            }
+            else{
+              System.out.println("Invalid email entry");
+            }
             for(int i = 0; i<accounts.size(); i++){
               if (accounts.get(i).getID()==active_account.getID()){
                 accounts.set(i, active_account);
@@ -230,7 +239,7 @@ public class TestApplication {
           case 3:
             System.out.println("Cancelling account management");
             running_account_management = false;
-            break;
+            return active_account;
           default:
             System.out.println("Invalid choice");
             break;
@@ -238,6 +247,7 @@ public class TestApplication {
       }while(running_account_management);
   }
   else System.out.println("You are currently not logged in");
+  return active_account;
 }
 
   private boolean checkEmail(String email){
