@@ -46,7 +46,7 @@ public class TestApplication {
 /*
     do{
       email = sc.next();
-      checkEmail(email);
+      //checkEmail(email);
     }while (checkEmail(email)==false);
     */
     //if (sc.hasNext()){
@@ -58,7 +58,7 @@ public class TestApplication {
       password = enterAccountPassword();
     //}while (password == "");
     //ÄNDRA TILL BARA SKAPA ACCOUNT
-    Account preAccount = new Account(username, password, email);
+    Account preAccount = new Account(username, password, email); //Behövs till inställning av adminstatus
     Account newAccount = null;
     int createAccountChoice = 0;
     String attempted_authorization_code;

@@ -20,7 +20,7 @@ public class Account{
     this.email = email;
     //id_nr = RandGen.RandNum();
   }
-  public Account(String username, String password, String email, boolean admin_status){
+  public Account(String username, String password, String email, boolean admin_status){ //För "riktiga" konton
     this.username = username;
     this.password = password;
     this.email = email;

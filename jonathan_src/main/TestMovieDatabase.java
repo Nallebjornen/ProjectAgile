@@ -260,6 +260,24 @@ public class TestMovieDatabase{
             for (int i = 0; i < movies.size(); i++){
               System.out.println(movies.get(i).title() + " (" + movies.get(i).year() + "). ID: " + movies.get(i).id_nr());
             }
+            int edit_movie_id;
+            boolean found_edit_movie = false;
+            Media temp_film = null;
+            System.out.println("Enter the ID of the movie you wish to edit");
+            edit_movie_id = sc.nextInt();
+            for (int j = 0; j<movies.size(); j++) {
+              if(movies.get(j).id_nr()==edit_movie_id){
+                found_edit_movie = true;
+                temp_film = ta.editMovie(movies.get(j), actors); //Problem med kompileringen
+                movies.set(j, temp_film);
+              }
+            }
+            if (found_edit_movie) {
+              System.out.println("Movie edit complete");
+            }
+            else {
+              System.out.println("No movie with that ID");
+            }
           }
           else{
             System.out.println("You are not authorized for this function");
@@ -270,6 +288,23 @@ public class TestMovieDatabase{
           if (admin == true){
             for (int i = 0; i < actors.size(); i++){
               System.out.println(actors.get(i).name() + ". ID: " + actors.get(i).id_nr());
+            }
+            boolean found_edit_actor;
+            int edit_actor_id;
+            System.out.println("Enter the ID of the actor you wish to edit");
+            edit_actor_id = sc.nextInt();
+            for (int j = 0; j<actors.size(); j++) {
+              if (actors.get(j).id_nr()==edit_actor_id) {
+                found_edit_actor = true;
+                Actors temp_actor = ta.editActor(actors.get(j));
+                actors.set(j, temp_actor);
+              }
+            }
+            if (found_edit_actor) {
+              System.out.println("Actor has been edited");
+            }
+            else {
+              System.out.println("No actor with that ID");
             }
           }
           else{
