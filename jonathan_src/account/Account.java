@@ -4,7 +4,6 @@ import people.Actors;
 import java.util.ArrayList;
 import review.Review;
 import random.RandGen;
-import content.Media;
 import java.util.Scanner;
 
 public class Account{
@@ -107,7 +106,7 @@ public class Account{
     this.email = new_email;
   }
 
-  public Media addMovie(){
+  public Movies addMovie(){
     String title, genre, language, plot, director, scriptwriter, release_dates;
     byte age_limit;
     short year;
@@ -131,7 +130,7 @@ public class Account{
     age_limit = sc.nextByte();
     System.out.println("Please enter the movie's production year:");
     year = sc.nextShort();
-    Media m = new Movies(title, genre, language, plot, director, scriptwriter, release_dates, age_limit, year);
+    Movies m = new Movies(title, genre, language, plot, director, scriptwriter, release_dates, age_limit, year);
     return m;
     /*
     (String title,String genre,String language,String plot,
@@ -144,7 +143,7 @@ public class Account{
     return reviews;
   }
 
-  public Review createReview(int user_id, Media movie_to_review){
+  public Review createReview(int user_id, Movies movie_to_review){
     Scanner sc = new Scanner(System.in);
     String review_text;
     byte grade;

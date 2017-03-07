@@ -316,7 +316,7 @@ public class TestApplication {
       System.out.println("5. Remove an actor from the cast");
       System.out.println("6. Change the director");
       System.out.println("7. Change the scriptwriter");
-      System.out.println("8. Add Actor plot");
+      System.out.println("8. Change the plot"); //System.out.println("8. Add Actor plot");
       System.out.println("9. Change the release date");
       System.out.println("10. Change the age limit");
       System.out.println("11. Cancel");

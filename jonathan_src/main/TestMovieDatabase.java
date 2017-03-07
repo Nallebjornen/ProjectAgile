@@ -15,7 +15,7 @@ public class TestMovieDatabase{
     boolean running = true;
     final String SEPARATOR = "------------";
     int choice; //för menyn
-    ArrayList<Media> movies = new ArrayList<>();
+    ArrayList<Movies> movies = new ArrayList<>();
     ArrayList<Actors> actors = new ArrayList<Actors>();
     TestApplication ta = new TestApplication();
     Scanner sc = new Scanner(System.in);
@@ -30,10 +30,10 @@ public class TestMovieDatabase{
     ta.addCreatedAccount(test_user);
     byte standard_age = 11;
     short r1 = 1940; short r2 = 2016;
-    Media mo1 = new Movies("Citizen Kane", "Drama", "English",
+    Movies mo1 = new Movies("Citizen Kane", "Drama", "English",
      "A journalist searches for the meaning of a dead millionaire's last words",
     "Orson Welles", "Orson Welles", "1941", standard_age, r1);
-    Media mo2 = new Movies("Gods of Egypt", "Fantasy", "English", "Blablabla",
+    Movies mo2 = new Movies("Gods of Egypt", "Fantasy", "English", "Blablabla",
                             "Unknown", "Unknown", "2016", standard_age, r2);
     movies.add(mo1); movies.add(mo2);
     byte review_byte = 2;
@@ -151,7 +151,7 @@ public class TestMovieDatabase{
         case 7: //Add Movie
           //System.out.println("Work In Progress");
           if(admin == true){
-            Media m = active_account.addMovie();
+            Movies m = active_account.addMovie();
             movies.add(m);
           }
           else System.out.println("You are not authorized");
@@ -262,7 +262,7 @@ public class TestMovieDatabase{
             }
             int edit_movie_id;
             boolean found_edit_movie = false;
-            Media temp_film = null;
+            Movies temp_film = null;
             System.out.println("Enter the ID of the movie you wish to edit");
             edit_movie_id = sc.nextInt();
             for (int j = 0; j<movies.size(); j++) {
@@ -289,7 +289,7 @@ public class TestMovieDatabase{
             for (int i = 0; i < actors.size(); i++){
               System.out.println(actors.get(i).name() + ". ID: " + actors.get(i).id_nr());
             }
-            boolean found_edit_actor;
+            boolean found_edit_actor = false;
             int edit_actor_id;
             System.out.println("Enter the ID of the actor you wish to edit");
             edit_actor_id = sc.nextInt();
